@@ -21,15 +21,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println("Tokens:", tokens)
-
-	ast, err := Parse(tokens)
+	expr, err := Parse(tokens)
 	if err != nil {
 		fmt.Println("Fatal error while parsing:", err)
 		os.Exit(1)
 	}
 
-	result, err := Evaluate(ast)
+	result, err := Evaluate(expr)
 	if err != nil {
 		fmt.Println("Fatal error while evaluating:", err)
 		os.Exit(1)

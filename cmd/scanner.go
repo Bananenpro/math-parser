@@ -15,6 +15,7 @@ const (
 	SLASH       TokenType = "/"
 	LEFT_PAREN  TokenType = "("
 	RIGHT_PAREN TokenType = ")"
+	EOF         TokenType = "eof"
 )
 
 type Token struct {
@@ -49,7 +50,7 @@ type scanner struct {
 func Scan(input string) ([]Token, error) {
 	scanner := scanner{
 		src:    []rune(input),
-		tokens: make([]Token, 1),
+		tokens: make([]Token, 0),
 	}
 	err := scanner.scan()
 	return scanner.tokens, err
@@ -72,7 +73,7 @@ func (e *scanner) scan() error {
 		case ')':
 			e.addToken(RIGHT_PAREN, 0)
 		case ' ', '\t', '\r', '\n':
-			break
+			e.expStartRune = e.currentRune + 1
 		default:
 			if !isNumber(c) {
 				return ScanError{
@@ -83,6 +84,7 @@ func (e *scanner) scan() error {
 			e.scanNumber()
 		}
 	}
+	e.addToken(EOF, 0)
 	return nil
 }
 
@@ -90,8 +92,9 @@ func (e *scanner) scanNumber() {
 	for e.currentRune < len(e.src) && isNumber(e.src[e.currentRune]) {
 		e.currentRune++
 	}
+	e.currentRune--
 
-	value, _ := strconv.ParseFloat(string(e.src[e.expStartRune:e.currentRune]), 64)
+	value, _ := strconv.ParseFloat(string(e.src[e.expStartRune:e.currentRune+1]), 64)
 
 	e.addToken(NUMBER, value)
 }

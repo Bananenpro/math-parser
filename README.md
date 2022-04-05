@@ -10,6 +10,10 @@ A program that parses and evaluates mathematical expressions like `-3 * (1 + 5) 
 go run ./cmd
 ```
 
+## TODO
+
+- Proper error handling
+
 ## License
 
 Copyright (c) 2022 Julian Hofmann

@@ -4,6 +4,12 @@
 
 A program that parses and evaluates mathematical expressions like `-3 * (1 + 5) - 9`.
 
+## Run
+
+```sh
+go run ./cmd
+```
+
 ## License
 
 Copyright (c) 2022 Julian Hofmann
